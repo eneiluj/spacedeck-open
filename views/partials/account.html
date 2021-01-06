@@ -1,13 +1,13 @@
 <header id="dialog-header" class="header" v-if="(active_view == 'account' && user)" v-cloak>
   <div v-cloak class="header-left pull-left">
-    <a class="btn btn-dark btn-md btn-round btn-icon" href="/spaces">
+    <a class="btn btn-dark btn-md btn-round btn-icon" href="<%= config.endpoint %>/spaces">
       <span class="icon icon-svg icon-sd6"></span>
     </a>
     <h5>Edit Account</h5>
   </div>
 
   <div class="header-right pull-right">
-    <a class="btn btn-dark btn-md btn-round btn-icon" href="/spaces">
+    <a class="btn btn-dark btn-md btn-round btn-icon" href="<%= config.endpoint %>/spaces">
       <span class="icon icon-cross-0"></span>
     </a>
   </div>

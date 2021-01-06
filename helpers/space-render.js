@@ -140,7 +140,7 @@ function render_space_as_html(space, artifacts) {
   var style="html, body, #space { overflow: visible !important; }\n";
   style+=".wrapper { border: none !important; }\n";
 
-  h='<html>\n<head>\n<link rel="stylesheet" href="/stylesheets/style.css"><style>'+style+'</style>\n</head>\n<body id="main">\n'+h+"\n</html>\n";
+  h='<html>\n<head>\n<link rel="stylesheet" href="<%= config.endpoint %>/stylesheets/style.css"><style>'+style+'</style>\n</head>\n<body id="main">\n'+h+"\n</html>\n";
 
   return h;
 }
