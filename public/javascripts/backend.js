@@ -48,6 +48,7 @@ function load_resource(method, path, data, on_success, on_error, on_progress) {
   }
 
   req.withCredentials = true;
+  console.debug('load_resource ' + api_endpoint+"/api"+path)
   req.open(method, api_endpoint+"/api"+path, true);
 
   if (api_token) {

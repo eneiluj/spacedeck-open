@@ -18,9 +18,14 @@
 
     <script>
       const endpoint = '<%= config.endpoint %>';
+      console.debug('EXECUTED endpoint = ' + endpoint)
+      const url = new URL(endpoint)
+      const path = url.pathname
+      console.debug('pathname : ' + path)
       var ENV = {
         name: 'development',
         webHost: location.host,
+        endpointPath: path,
         webEndpoint: endpoint,
         apiEndpoint: endpoint,
         websocketsEndpoint: endpoint.replace("https:","wss:").replace("http:","ws:")

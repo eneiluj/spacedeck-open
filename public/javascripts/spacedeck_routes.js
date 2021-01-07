@@ -1,3 +1,6 @@
+console.debug('KKKKK ')
+console.debug(ENV)
+
 /*
   SpacedeckRoutes
   This module contains functions dealing with Routing and View Switching.
@@ -251,19 +254,27 @@ var SpacedeckRoutes = {
 
     var foundRoute = this.router.recognize(path);
     if (foundRoute) {
+      console.debug('FOUNDDDDDDD ' + path)
       foundRoute[0].handler(foundRoute[0].params, on_success);
     } else {
+      console.debug('jirayaaaaaa ' + path)
       location.href = "/not_found";
     }
   },
 
   route: function() {
+      console.debug('aaaaaa')
     window.onpopstate = function (event) {
       event.preventDefault();
-      this.internal_route(location.pathname);
+      console.debug('111111')
+      const path = ENV.endpointPath === '/'
+        ? location.pathname
+        : location.pathname.replace(ENV.endpointPath, '')
+      this.internal_route(path);
     }.bind(this);
 
     $("body").on("click", "a", function(event) {
+      console.debug('222222')
       // #hash
       if (event.currentTarget.hash && event.currentTarget.hash.length>1) return;
 
@@ -276,13 +287,20 @@ var SpacedeckRoutes = {
       // /t/ path
       if (event.currentTarget.pathname.match(/^\/t\//)) return;
 
-      this.internal_route(event.currentTarget.pathname);
+      const path = ENV.endpointPath === '/'
+        ? event.currentTarget.pathname
+        : event.currentTarget.pathname.replace(ENV.endpointPath, '')
+      this.internal_route(path);
       history.pushState(null, null, event.currentTarget.pathname);
 
       event.preventDefault();
     }.bind(this));
 
-    this.internal_route(location.pathname);
+    const path = ENV.endpointPath === '/'
+      ? location.pathname
+      : location.pathname.replace(ENV.endpointPath, '')
+    console.debug('mémémémémémé ' + path)
+    this.internal_route(path);
   },
   
   open_url: function(url) {
