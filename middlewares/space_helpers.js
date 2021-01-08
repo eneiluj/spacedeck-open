@@ -3,6 +3,7 @@
 const db = require('../models/db');
 const { Op } = require("sequelize");
 var config = require('config');
+const https = require('https');
 
 module.exports = (req, res, next) => {
   let spaceId = req.params.id;
@@ -46,6 +47,32 @@ module.exports = (req, res, next) => {
     } else {
       finalizeReq(space, role);
     }
+  };
+
+  var checkAccessToken = function(space, accessToken) {
+    process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+    return new Promise ((resolve, reject) => {
+      https.get(config.auth_endpoint + '/' + accessToken + '/' + space.name, (res) => {
+        let body = '';
+        res.on('data', (chunk) => {
+          body += chunk;
+        });
+
+        res.on('end', () => {
+          try {
+              const json = JSON.parse(body);
+              resolve(json.success)
+              console.debug(json)
+              // do something with JSON
+          } catch (error) {
+              reject(error);
+          };
+        });
+
+      }).on('error', (error) => {
+        reject(error);
+      });
+    })
   };
 
   var userMapping = {
@@ -101,7 +128,23 @@ module.exports = (req, res, next) => {
           });
         } else {
           if (req.spaceAuth && space.edit_hash) {
-            finalizeAnonymousLogin(space, req["spaceAuth"]);
+              if (config.auth_endpoint) {
+                checkAccessToken(space, req.accessToken).then((res) => {
+                  if (res) {
+                    finalizeAnonymousLogin(space, req["spaceAuth"]);
+                  } else {
+                    res.status(403).json({
+                      "error": "auth_required"
+                    });
+                  }
+                }).catch((error) => {
+                    res.status(403).json({
+                      "error": "auth_required"
+                    });
+                })
+              } else {
+                finalizeAnonymousLogin(space, req["spaceAuth"]);
+              }
           } else {
             res.status(403).json({
               "error": "auth_required"

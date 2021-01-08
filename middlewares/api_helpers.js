@@ -10,6 +10,7 @@ module.exports = (req, res, next) => {
   req['channelId'] = req.headers['x-spacedeck-channel'];
   req['spacePassword'] = req.headers['x-spacedeck-spacepassword'];
   req['spaceAuth'] = req.query['spaceAuth'] || req.headers['x-spacedeck-space-auth'];
+  req['accessToken'] = req.query['accessToken'] || req.headers['x-spacedeck-access-token'];
 
   res['distributeCreate'] = function(model, object) {
     if (!object) return;

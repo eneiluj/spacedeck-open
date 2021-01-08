@@ -5,9 +5,14 @@ var api_token = null;
 var websocket = null;
 var channel_id = null;
 var space_auth = null;
+var access_token = null;
 
 function set_space_auth(hash) {
   space_auth = hash;
+}
+
+function set_access_token(hash) {
+  access_token = hash;
 }
 
 function load_resource(method, path, data, on_success, on_error, on_progress) {
@@ -55,6 +60,9 @@ function load_resource(method, path, data, on_success, on_error, on_progress) {
   }
   if (space_auth) {
     req.setRequestHeader("X-Spacedeck-Space-Auth", space_auth);
+  }
+  if (access_token) {
+    req.setRequestHeader("X-Spacedeck-Access-Token", access_token);
   }
   if (channel_id) {
     req.setRequestHeader("X-Spacedeck-Channel", channel_id);
