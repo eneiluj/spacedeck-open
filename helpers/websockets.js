@@ -30,6 +30,7 @@ module.exports = {
 
     const wss = new WebSocketServer({ server:server,  path: "/socket" });
     wss.on('connection', function(ws) {
+      console.debug('WS connection')
 
       this.state.incr("socket_id", function(err, socketCounter) {
         const socketId = "socket_"  + socketCounter + "_" + crypto.randomBytes(64).toString('hex').substring(0,8);
@@ -111,6 +112,7 @@ module.exports = {
         });
 
         ws.on('close', function(evt) {
+          console.debug(ws)
           console.log("websocket closed: ", ws.id, ws.space_id);
           const spaceId = ws.space_id;
           serverScope.removeUserInSpace(spaceId, ws, function(err) {
@@ -120,7 +122,10 @@ module.exports = {
         }.bind(this));
 
         ws.on('error', function(ws, err) {
-          console.error(err, res);
+          console.debug('WS ERRORORRORORORO')
+          console.debug(ws)
+          console.debug(err)
+          // console.error(err, res);
         }.bind(this));
       }.bind(this));
     }.bind(this));
