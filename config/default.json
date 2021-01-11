@@ -5,6 +5,7 @@
   "host": "::",
   "port": 9666,
   "endpoint": "http://localhost:9666",
+  "auth_endpoint": "https://localhost/dev/server21/index.php/apps/integration_whiteboard/auth",
   "invite_code": "top-sekrit",
 
   "storage_local_path": "./storage",
