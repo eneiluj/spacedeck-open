@@ -107,6 +107,8 @@ var SpacedeckSpaces = {
         set_space_auth(space_auth);
       } else {
         set_space_auth(get_query_param("spaceAuth"));
+        set_space_name(get_query_param("spaceName"));
+        set_space_token(get_query_param("token"));
       }
       
       this.embedded = !!(get_query_param("embedded"));

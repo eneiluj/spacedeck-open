@@ -9,6 +9,7 @@ console.debug(ENV)
 var SpacedeckRoutes = {
 
   internal_route: function(path, on_success) {
+    console.debug('INTERNAL ROUTE ' + path)
     if(!this.router) {
       this.router = new RouteRecognizer();
 
@@ -308,9 +309,10 @@ var SpacedeckRoutes = {
   },
   
   redirect_to: function(path, on_success) {
+    console.debug('REDIRECT TO ' + path)
     if (on_success) {
       this.internal_route(path, on_success);
-      history.pushState(null, null, path);
+      history.pushState(null, null, ENV.endpointPath + path);
     } else {
       window._spacedeck_location_change = true;
       location.href = path;

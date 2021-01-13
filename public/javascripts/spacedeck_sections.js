@@ -412,7 +412,7 @@ var SpacedeckSections = {
         query_string+="?spaceAuth="+space.edit_hash;
       }
 
-      return "background-image:url('/api/spaces/"+space._id+"/png"+query_string+"')";
+      return "background-image:url('" + ENV.apiEndpoint + "/api/spaces/" + space._id + "/png" + query_string + "')";
     },
 
     reset_artifact_filters: function() {

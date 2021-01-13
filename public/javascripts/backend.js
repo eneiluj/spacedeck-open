@@ -1,13 +1,24 @@
 var api_endpoint = ENV.apiEndpoint;
+console.debug('api_endpoint ' + api_endpoint)
 var api_socket_endpoint = ENV.websocketsEndpoint;
 
 var api_token = null;
 var websocket = null;
 var channel_id = null;
 var space_auth = null;
+var space_name = null;
+var space_token = null;
 
 function set_space_auth(hash) {
   space_auth = hash;
+}
+
+function set_space_name(name) {
+  space_name = name;
+}
+
+function set_space_token(token) {
+  space_token = token;
 }
 
 function load_resource(method, path, data, on_success, on_error, on_progress) {
@@ -56,6 +67,12 @@ function load_resource(method, path, data, on_success, on_error, on_progress) {
   }
   if (space_auth) {
     req.setRequestHeader("X-Spacedeck-Space-Auth", space_auth);
+  }
+  if (space_name) {
+    req.setRequestHeader("X-Spacedeck-Space-Name", space_name);
+  }
+  if (space_token) {
+    req.setRequestHeader("X-Spacedeck-Space-Token", space_token);
   }
   if (channel_id) {
     req.setRequestHeader("X-Spacedeck-Channel", channel_id);

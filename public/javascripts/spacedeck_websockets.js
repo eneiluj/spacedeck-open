@@ -114,6 +114,8 @@ SpacedeckWebsockets = {
           auth_token: token,
           space_id: space._id
         };
+        console.debug('GUESSSSSSS ')
+        console.debug(auth_params)
         console.log("[websocket] auth space");
         this.websocket.send(JSON.stringify(auth_params));
       }

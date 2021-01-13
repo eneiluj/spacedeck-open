@@ -24,6 +24,8 @@ var router = express.Router();
 var glob = require('glob');
 
 router.get('/current', function(req, res, next) {
+  console.debug('/current 1111')
+  console.debug(req)
   if (req.user) {
     var u = _.clone(req.user.dataValues);
     delete u.password_hash;
@@ -135,6 +137,7 @@ router.post('/', function(req, res) {
 });
 
 router.get('/current', function(req, res, next) {
+  console.debug('/current 22222')
   if (req.user) {
     res.status(200).json(req.user);
   } else {

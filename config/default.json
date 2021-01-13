@@ -4,7 +4,7 @@
 
   "host": "::",
   "port": 9666,
-  "endpoint": "https://localhost/dev/server21/apps/integration_whiteboard/proxy.php",
+  "endpoint": "https://localhost/dev/server21/index.php/apps/integration_whiteboard/proxy",
   "invite_code": "top-sekrit",
 
   "storage_local_path": "./storage",
