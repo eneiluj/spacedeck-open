@@ -1,6 +1,3 @@
-console.debug('KKKKK ')
-console.debug(ENV)
-
 /*
   SpacedeckRoutes
   This module contains functions dealing with Routing and View Switching.
@@ -9,7 +6,6 @@ console.debug(ENV)
 var SpacedeckRoutes = {
 
   internal_route: function(path, on_success) {
-    console.debug('INTERNAL ROUTE ' + path)
     if(!this.router) {
       this.router = new RouteRecognizer();
 
@@ -255,19 +251,15 @@ var SpacedeckRoutes = {
 
     var foundRoute = this.router.recognize(path);
     if (foundRoute) {
-      console.debug('FOUNDDDDDDD ' + path)
       foundRoute[0].handler(foundRoute[0].params, on_success);
     } else {
-      console.debug('jirayaaaaaa ' + path)
       location.href = "/not_found";
     }
   },
 
   route: function() {
-      console.debug('aaaaaa')
     window.onpopstate = function (event) {
       event.preventDefault();
-      console.debug('111111')
       const path = ENV.endpointPath === '/'
         ? location.pathname
         : location.pathname.replace(ENV.endpointPath, '')
@@ -275,7 +267,6 @@ var SpacedeckRoutes = {
     }.bind(this);
 
     $("body").on("click", "a", function(event) {
-      console.debug('222222')
       // #hash
       if (event.currentTarget.hash && event.currentTarget.hash.length>1) return;
 
@@ -300,7 +291,6 @@ var SpacedeckRoutes = {
     const path = ENV.endpointPath === '/'
       ? location.pathname
       : location.pathname.replace(ENV.endpointPath, '')
-    console.debug('mémémémémémé ' + path)
     this.internal_route(path);
   },
   
@@ -309,7 +299,6 @@ var SpacedeckRoutes = {
   },
   
   redirect_to: function(path, on_success) {
-    console.debug('REDIRECT TO ' + path)
     if (on_success) {
       this.internal_route(path, on_success);
       history.pushState(null, null, ENV.endpointPath + path);

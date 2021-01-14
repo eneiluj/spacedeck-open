@@ -296,7 +296,6 @@ var SpacedeckSpaces = {
               this.redirect_to("/");
             }
           } else {
-            console.debug('fufufuf')
             this.redirect_to("/not_found");
             console.error(xhr);
           }

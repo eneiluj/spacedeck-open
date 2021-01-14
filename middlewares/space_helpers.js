@@ -85,7 +85,6 @@ module.exports = (req, res, next) => {
       } else {
         // space is private
         
-        console.debug('SPACE IS PRIVATE')
         // special permission for screenshot/pdf export from backend
         if (req.query['api_token'] && req.query['api_token'] == config.get('phantom_api_secret')) {
           finalizeReq(space, "viewer");
@@ -101,18 +100,12 @@ module.exports = (req, res, next) => {
             }
           });
         } else {
-          console.debug('111111')
-          console.debug(req.spaceAuth)
-          console.debug(space.edit_hash)
           if (req.spaceAuth && space.edit_hash) {
-          console.debug('222222')
             finalizeAnonymousLogin(space, req["spaceAuth"]);
           } else {
-          console.debug('33333')
             res.status(403).json({
               "error": "auth_required"
             });
-          console.debug('44444')
           }
         }
       }

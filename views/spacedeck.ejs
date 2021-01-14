@@ -18,10 +18,8 @@
 
     <script>
       const endpoint = '<%= config.endpoint %>';
-      console.debug('EXECUTED endpoint = ' + endpoint)
       const url = new URL(endpoint)
       const path = url.pathname
-      console.debug('pathname : ' + path)
       var ENV = {
         name: 'development',
         webHost: location.host,
