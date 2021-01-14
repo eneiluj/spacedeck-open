@@ -13,7 +13,7 @@
        href="<%= config.endpoint %>/folders/{{active_space.parent_space_id}}"
        v-if="(active_space.parent_space_id && !guest_nickname && !embedded)">
       
-      <span class="icon icon-sd6 icon-svg"></span>
+      <span class="icon icon-sd6 icon-svg" style="background-image: url(<%= config.endpoint %>/images/sd6-icon-white.svg);"></span>
     </a>
 
     <button class="btn btn-divider"></button>

@@ -109,6 +109,7 @@ module.exports = {
           } else if (msg.action == "cursor" || msg.action == "viewport" || msg.action=="media") {
             msg.space_id = socket.space_id;
             msg.from_socket_id = socket.id;
+            // console.debug('publish ' + msg.action)
             serverScope.state.publish('cursors', JSON.stringify(msg));
           }
         });
@@ -146,6 +147,7 @@ module.exports = {
     }
     
     this.cursorSubscriber.on('message', function (channel, rawMessage) {
+      // console.debug('subscriber message channel:' + channel)
       const msg = JSON.parse(rawMessage);
       const spaceId = msg.space_id;
 
