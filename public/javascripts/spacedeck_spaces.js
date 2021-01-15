@@ -224,10 +224,12 @@ var SpacedeckSpaces = {
 
             this.setup_watches();
 
+            /*
             setInterval(function() {
               console.debug('LAUNCH REFRESH')
               this.refresh_space_artifacts(space._id);
             }.bind(this), 5000);
+            */
 
             load_artifacts(space._id, function(artifacts) {
 

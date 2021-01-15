@@ -101,7 +101,7 @@ SpacedeckWebsockets = {
 
     auth_websocket: function(space){
       if (!this.websocket) {
-        // this.init_websocket();
+        this.init_websocket();
       }
 
       if (this.websocket && this.websocket.readyState==1) {
@@ -120,6 +120,7 @@ SpacedeckWebsockets = {
     },
 
     websocket_send: function(msg) {
+      // console.debug('websocket_send')
       // return
       if (!this.websocket) return;
       if (this.websocket.readyState!=1) return;
@@ -127,6 +128,7 @@ SpacedeckWebsockets = {
       try {
         this.websocket.send(JSON.stringify(msg));
       } catch (e) {
+        // console.debug('websocket_send PROBLEM')
         // catch NS problems
       }
     },
