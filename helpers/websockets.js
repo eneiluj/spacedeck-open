@@ -30,6 +30,7 @@ module.exports = {
 
     const wss = new WebSocketServer({ server:server,  path: "/socket" });
     wss.on('connection', function(ws) {
+      // console.debug('WS connection')
 
       this.state.incr("socket_id", function(err, socketCounter) {
         const socketId = "socket_"  + socketCounter + "_" + crypto.randomBytes(64).toString('hex').substring(0,8);
@@ -41,6 +42,8 @@ module.exports = {
           const msg = JSON.parse(msgString);
 
           if(msg.action == "auth"){
+            // console.debug('WS AUTH : ')
+            // console.debug(msg)
 
             const token = msg.auth_token;
             const editorName = msg.editor_name;
@@ -106,11 +109,13 @@ module.exports = {
           } else if (msg.action == "cursor" || msg.action == "viewport" || msg.action=="media") {
             msg.space_id = socket.space_id;
             msg.from_socket_id = socket.id;
+            // console.debug('publish ' + msg.action)
             serverScope.state.publish('cursors', JSON.stringify(msg));
           }
         });
 
         ws.on('close', function(evt) {
+          // console.debug(ws)
           console.log("websocket closed: ", ws.id, ws.space_id);
           const spaceId = ws.space_id;
           serverScope.removeUserInSpace(spaceId, ws, function(err) {
@@ -120,7 +125,10 @@ module.exports = {
         }.bind(this));
 
         ws.on('error', function(ws, err) {
-          console.error(err, res);
+          // console.debug('WS ERRORORRORORORO')
+          // console.debug(ws)
+          // console.debug(err)
+          // console.error(err, res);
         }.bind(this));
       }.bind(this));
     }.bind(this));
@@ -139,6 +147,7 @@ module.exports = {
     }
     
     this.cursorSubscriber.on('message', function (channel, rawMessage) {
+      // console.debug('subscriber message channel:' + channel)
       const msg = JSON.parse(rawMessage);
       const spaceId = msg.space_id;
 

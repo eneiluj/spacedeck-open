@@ -37,7 +37,7 @@ SpacedeckAccount = {
       this.user.prefs_language = lang;
       this.save_user(function() {
         window._spacedeck_location_change = true;
-        location.href="/spaces";
+        location.href = ENV.webEndpoint + "/spaces";
       }.bind(this));
     },
 
@@ -49,7 +49,7 @@ SpacedeckAccount = {
 
       save_user(this.user, function(user) {
         if (on_success) on_success();
-        else location.href="/spaces";
+        else location.href = ENV.webEndpoint + "/spaces";
 
       }.bind(this), function(xhr){
         console.error(xhr)

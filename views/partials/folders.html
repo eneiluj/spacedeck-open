@@ -1,6 +1,6 @@
 <header id="folder-header" class="header" v-if="(active_view == 'folders' && active_folder)" v-cloak>
   <div v-cloak class="header-left pull-left">
-    <a class="btn btn-dark btn-md btn-round btn-icon" href="/spaces">
+    <a class="btn btn-dark btn-md btn-round btn-icon" href="<%= config.endpoint %>/spaces">
       <span class="icon icon-svg icon-sd6"></span>
     </a>
     <button v-if="logged_in && (active_space_role == 'editor' || active_space_role == 'admin')" class="btn btn-dark btn-md btn-round" v-on:click="create_space('space')"><%= __('create_space') %></button>
@@ -58,14 +58,14 @@
       <div class="dropdown-menu" role="menu">
         <ul class="select-list">
           <li v-if="user.team && is_admin(user)">
-            <a href="/team">
+            <a href="<%= config.endpoint %>/team">
               <span class="icon icon-sm  icon-user-group"></span>
               <span><%=  __('edit_team') %></span>
             </a>
           </li>
 
           <li>
-            <a href="/account">
+            <a href="<%= config.endpoint %>/account">
               <span class="icon icon-sm  icon-user"></span>
               <span><%=  __('edit_account') %></span>
             </a>
@@ -92,7 +92,7 @@
     <div id="folder-breadcrumb">
 
       <span v-if="logged_in" v-for="item in active_space_path" class="btn btn-sm btn-transparent" v-sd-droppable="handle_folder_drop;item">
-        <a href="/{{item.space_type}}s/{{item._id}}">{{item.name}}</a>&nbsp; ▶</span>
+        <a href="<%= config.endpoint %>/{{item.space_type}}s/{{item._id}}">{{item.name}}</a>&nbsp; ▶</span>
 
       <a v-if="(active_space_role != 'admin')" type="button" class="btn btn-sm btn-transparent">
         <span>{{active_folder.name}}</span>
@@ -138,12 +138,12 @@
         v-bind:style="{'z-index': (active_profile_spaces.length - $index)}">
 
         <!-- anonymous editors can go edit spaces in a folder -->
-        <a href="/s/{{item.edit_hash}}-{{item.edit_slug}}" v-if="active_space_role=='editor' && !logged_in">
+        <a href="<%= config.endpoint %>/s/{{item.edit_hash}}-{{item.edit_slug}}" v-if="active_space_role=='editor' && !logged_in">
           <span class="item-thumbnail thumbnail-loading" v-if="item.space_type=='space'"></span>
           <span class="item-thumbnail" v-bind:style="space_thumbnail_style(item)"></span>
         </a>
         
-        <a v-if="active_space_role=='viewer' || logged_in" href="/{{item.space_type}}s/{{item._id}}">
+        <a v-if="active_space_role=='viewer' || logged_in" href="<%= config.endpoint %>/{{item.space_type}}s/{{item._id}}">
           <span class="item-thumbnail thumbnail-loading" v-if="item.space_type=='space'"></span>
           <span class="item-thumbnail" v-bind:style="space_thumbnail_style(item)"></span>
         </a>

@@ -234,7 +234,7 @@ SpacedeckUsers = {
         api_token = null;
         this.user = {};
         this.active_content_type = "login";
-        this.redirect_to("/");
+        this.redirect_to(ENV.webEndpoint + "/");
 
       }.bind(this));
     },

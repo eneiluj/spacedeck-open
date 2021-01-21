@@ -5,6 +5,7 @@ SpacedeckWebsockets = {
   },
   methods: {
     handle_live_updates: function(msg) {
+      console.debug('RECEIVE MESSAGE ' + msg.model)
       if (msg.model == "Space" && msg.object) {
         if (msg.object.space_type == "space") {
           if (this.active_space) {
@@ -120,12 +121,15 @@ SpacedeckWebsockets = {
     },
 
     websocket_send: function(msg) {
+      // console.debug('websocket_send')
+      // return
       if (!this.websocket) return;
       if (this.websocket.readyState!=1) return;
 
       try {
         this.websocket.send(JSON.stringify(msg));
       } catch (e) {
+        // console.debug('websocket_send PROBLEM')
         // catch NS problems
       }
     },

@@ -107,6 +107,8 @@ var SpacedeckSpaces = {
         set_space_auth(space_auth);
       } else {
         set_space_auth(get_query_param("spaceAuth"));
+        set_space_name(get_query_param("spaceName"));
+        set_space_token(get_query_param("token"));
       }
       
       this.embedded = !!(get_query_param("embedded"));
@@ -222,6 +224,14 @@ var SpacedeckSpaces = {
 
             this.setup_watches();
 
+            /*
+            setInterval(function() {
+              console.debug('LAUNCH REFRESH')
+              this.refresh_space_artifacts(space._id);
+            }.bind(this), 5000);
+            */
+           this.start_loop(space)
+
             load_artifacts(space._id, function(artifacts) {
 
               // FIXME: how to cleanly handle this error?
@@ -230,6 +240,8 @@ var SpacedeckSpaces = {
               }
               
               // FIXME: remove kludge
+              console.debug('IN FIRST LOAD')
+              // console.debug(this)
               for (var i=0; i<artifacts.length; i++) {
                 this.update_board_artifact_viewmodel(artifacts[i]);
               }
@@ -238,7 +250,7 @@ var SpacedeckSpaces = {
               this.$set("active_space", space);
               this.active_space = space;
 
-              this.auth_websocket(this.active_space);
+              // this.auth_websocket(this.active_space);
 
               this.active_view = "space";
               this.fixup_space_size();
@@ -321,6 +333,63 @@ var SpacedeckSpaces = {
         this.guest_nickname = "";
         userReady();
       }
+    },
+
+    refresh_space_artifacts: function(space_id) {
+      console.debug('refresh_space_artifacts OF ' + space_id)
+      console.debug(this)
+            load_artifacts(space_id, function(artifacts) {
+
+              // FIXME: how to cleanly handle this error?
+              if (!artifacts) {
+                artifacts = [];
+              }
+              
+              // FIXME: remove kludge
+              console.debug(this)
+              for (var i=0; i<artifacts.length; i++) {
+                this.update_board_artifact_viewmodel(artifacts[i]);
+              }
+              this.active_space_artifacts = artifacts;
+
+              /*
+              this.$set("active_space", space);
+              this.active_space = space;
+
+              this.auth_websocket(this.active_space);
+
+              this.active_view = "space";
+              this.fixup_space_size();
+
+              if (space._id != this.active_space._id) {
+                this.present_mode = true;
+                this.active_space_is_readonly = true;
+              } else {
+                this.active_space_is_readonly = false;
+              }
+
+              this.discover_zones();
+
+              window.setTimeout(function() {
+                this.zoom_to_fit();
+              }.bind(this),10);
+
+              if (on_success) {
+                on_success();
+              }
+
+              this.active_space_loaded = true;
+              this.extract_properties_from_selection(); // populates zones etc
+              
+              load_comments(space._id, function(messages) {
+                if (!messages) messages = [];
+                
+                this.active_space_messages = messages;
+                this.refresh_space_comments();
+              }.bind(this), function(xhr) { console.error(xhr); });
+              */
+
+            }.bind(this));
     },
 
     refresh_space_comments: function() {

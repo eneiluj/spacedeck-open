@@ -7,54 +7,65 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <link href="/images/favicon.png" rel="icon" type="image/x-icon" />
-    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link href="<%= config.endpoint %>/images/favicon.png" rel="icon" type="image/x-icon" />
+    <style>
+      :root {
+        --endpoint: <%= config.endpoint %>;
+      }
+    </style>
+    <link rel="stylesheet" href="<%= config.endpoint %>/stylesheets/style.css">
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
     <script>
+      const endpoint = '<%= config.endpoint %>';
+      const url = new URL(endpoint)
+      const path = url.pathname
       var ENV = {
         name: 'development',
         webHost: location.host,
-        webEndpoint: location.origin,
-        apiEndpoint: location.origin,
-        websocketsEndpoint: location.origin.replace("https:","wss:").replace("http:","ws:")
+        endpointPath: path,
+        webEndpoint: endpoint,
+        apiEndpoint: endpoint,
+        websocketsEndpoint: endpoint.replace("https:","wss:").replace("http:","ws:")
+        // websocketsEndpoint: 'ws://localhost:9666',
       };
     </script>
 
-    <script src="/javascripts/jquery-2.1.4.min.js"></script>
-    <script src="/javascripts/i18next-1.11.2.js"></script>
-    <script src="/javascripts/clipboard.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/jquery-2.1.4.min.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/i18next-1.11.2.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/clipboard.js"></script>
 
-    <script src="/javascripts/lodash.compat.js"></script>
-    <script src="/javascripts/fastclick.js"></script>
-    <script src="/javascripts/vue.js"></script>
-    <script src="/javascripts/moment.js"></script>
-    <script src="/javascripts/medium.patched.js"></script>
-    <script src="/javascripts/route-recognizer.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/lodash.compat.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/fastclick.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/vue.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/moment.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/medium.patched.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/route-recognizer.js"></script>
 
-    <script src="/javascripts/backend.js"></script>
-    <script src="/javascripts/link_parser.js"></script>
-    <script src="/javascripts/vector-render.js"></script>
-    <script src="/javascripts/mousetrap.js"></script>
-    <script src="/javascripts/smoke.js"></script>
-    <script src="/javascripts/helper.js"></script>
-    <script src="/javascripts/packer.growing.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/backend.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/link_parser.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/vector-render.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/mousetrap.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/smoke.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/helper.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/packer.growing.js"></script>
 
-    <script src="/javascripts/spacedeck_routes.js"></script>
-    <script src="/javascripts/spacedeck_formatting.js"></script>
-    <script src="/javascripts/spacedeck_sections.js"></script>
-    <script src="/javascripts/spacedeck_spaces.js"></script>
-    <script src="/javascripts/spacedeck_teams.js"></script>
-    <script src="/javascripts/spacedeck_board_artifacts.js"></script>
-    <script src="/javascripts/spacedeck_users.js"></script>
-    <script src="/javascripts/spacedeck_account.js"></script>
-    <script src="/javascripts/spacedeck_modals.js"></script>
-    <script src="/javascripts/spacedeck_avatars.js"></script>
-    <script src="/javascripts/spacedeck_websockets.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_routes.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_formatting.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_sections.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_spaces.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_teams.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_board_artifacts.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_users.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_account.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_modals.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_avatars.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_async_refresh.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_websockets.js"></script>
 
-    <script src="/javascripts/spacedeck_whiteboard.js"></script>
-    <script src="/javascripts/spacedeck_directives.js"></script>
-    <script src="/javascripts/spacedeck_vue.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_whiteboard.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_directives.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_vue.js"></script>
 
     <script>if (window.module) module = window.module;</script>
   </head>

@@ -260,7 +260,10 @@ var SpacedeckRoutes = {
   route: function() {
     window.onpopstate = function (event) {
       event.preventDefault();
-      this.internal_route(location.pathname);
+      const path = ENV.endpointPath === '/'
+        ? location.pathname
+        : location.pathname.replace(ENV.endpointPath, '')
+      this.internal_route(path);
     }.bind(this);
 
     $("body").on("click", "a", function(event) {
@@ -276,13 +279,19 @@ var SpacedeckRoutes = {
       // /t/ path
       if (event.currentTarget.pathname.match(/^\/t\//)) return;
 
-      this.internal_route(event.currentTarget.pathname);
+      const path = ENV.endpointPath === '/'
+        ? event.currentTarget.pathname
+        : event.currentTarget.pathname.replace(ENV.endpointPath, '')
+      this.internal_route(path);
       history.pushState(null, null, event.currentTarget.pathname);
 
       event.preventDefault();
     }.bind(this));
 
-    this.internal_route(location.pathname);
+    const path = ENV.endpointPath === '/'
+      ? location.pathname
+      : location.pathname.replace(ENV.endpointPath, '')
+    this.internal_route(path);
   },
   
   open_url: function(url) {
@@ -292,7 +301,7 @@ var SpacedeckRoutes = {
   redirect_to: function(path, on_success) {
     if (on_success) {
       this.internal_route(path, on_success);
-      history.pushState(null, null, path);
+      history.pushState(null, null, ENV.endpointPath + path);
     } else {
       window._spacedeck_location_change = true;
       location.href = path;
