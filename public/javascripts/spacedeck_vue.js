@@ -60,6 +60,7 @@ function boot_spacedeck() {
   // mix in functions from all Spacedeck modules
 
   methods = _.extend(methods, SpacedeckUsers.methods);
+  methods = _.extend(methods, SpacedeckAsyncRefresh.methods);
   methods = _.extend(methods, SpacedeckWebsockets.methods);
   methods = _.extend(methods, SpacedeckSpaces.methods);
   methods = _.extend(methods, SpacedeckTeams.methods);
@@ -73,6 +74,7 @@ function boot_spacedeck() {
 
   data = _.extend(data, SpacedeckUsers.data);
   data = _.extend(data, SpacedeckAccount.data);
+  data = _.extend(data, SpacedeckAsyncRefresh.data);
   data = _.extend(data, SpacedeckWebsockets.data);
   data = _.extend(data, SpacedeckSpaces.data);
   data = _.extend(data, SpacedeckTeams.data);

@@ -230,6 +230,7 @@ var SpacedeckSpaces = {
               this.refresh_space_artifacts(space._id);
             }.bind(this), 5000);
             */
+           this.start_loop(space)
 
             load_artifacts(space._id, function(artifacts) {
 
@@ -240,7 +241,7 @@ var SpacedeckSpaces = {
               
               // FIXME: remove kludge
               console.debug('IN FIRST LOAD')
-              console.debug(this)
+              // console.debug(this)
               for (var i=0; i<artifacts.length; i++) {
                 this.update_board_artifact_viewmodel(artifacts[i]);
               }
@@ -249,7 +250,7 @@ var SpacedeckSpaces = {
               this.$set("active_space", space);
               this.active_space = space;
 
-              this.auth_websocket(this.active_space);
+              // this.auth_websocket(this.active_space);
 
               this.active_view = "space";
               this.fixup_space_size();

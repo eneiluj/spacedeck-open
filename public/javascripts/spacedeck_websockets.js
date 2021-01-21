@@ -5,6 +5,7 @@ SpacedeckWebsockets = {
   },
   methods: {
     handle_live_updates: function(msg) {
+      console.debug('RECEIVE MESSAGE ' + msg.model)
       if (msg.model == "Space" && msg.object) {
         if (msg.object.space_type == "space") {
           if (this.active_space) {

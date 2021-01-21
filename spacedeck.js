@@ -6,6 +6,7 @@ require("log-timestamp");
 const config = require('config');
 const redis = require('./helpers/redis');
 const websockets = require('./helpers/websockets');
+const actions = require('./helpers/actions');
 
 const http = require('http');
 const path = require('path');
@@ -87,6 +88,7 @@ app.use('/api/spaces', spaceRouter);
 spaceRouter.use('/:id/artifacts', require('./routes/api/space_artifacts'));
 spaceRouter.use('/:id/memberships', require('./routes/api/space_memberships'));
 spaceRouter.use('/:id/messages', require('./routes/api/space_messages'));
+spaceRouter.use('/:id/actions', require('./routes/api/space_actions'));
 spaceRouter.use('/:id/digest', require('./routes/api/space_digest'));
 spaceRouter.use('/:id', require('./routes/api/space_exports'));
 
@@ -151,6 +153,7 @@ const server = http.Server(app).listen(port, host, () => {
 });
 
 websockets.startWebsockets(server);
+actions.setupSubscription();
 redis.connectRedis();
 
 /*process.on('message', (message) => {

@@ -26,8 +26,8 @@
         endpointPath: path,
         webEndpoint: endpoint,
         apiEndpoint: endpoint,
-        // websocketsEndpoint: endpoint.replace("https:","wss:").replace("http:","ws:")
-        websocketsEndpoint: 'ws://localhost:9666',
+        websocketsEndpoint: endpoint.replace("https:","wss:").replace("http:","ws:")
+        // websocketsEndpoint: 'ws://localhost:9666',
       };
     </script>
 
@@ -60,6 +60,7 @@
     <script src="<%= config.endpoint %>/javascripts/spacedeck_account.js"></script>
     <script src="<%= config.endpoint %>/javascripts/spacedeck_modals.js"></script>
     <script src="<%= config.endpoint %>/javascripts/spacedeck_avatars.js"></script>
+    <script src="<%= config.endpoint %>/javascripts/spacedeck_async_refresh.js"></script>
     <script src="<%= config.endpoint %>/javascripts/spacedeck_websockets.js"></script>
 
     <script src="<%= config.endpoint %>/javascripts/spacedeck_whiteboard.js"></script>
