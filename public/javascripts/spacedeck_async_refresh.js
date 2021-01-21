@@ -6,21 +6,25 @@ SpacedeckAsyncRefresh = {
   },
   methods: {
     start_loop: function(space) {
-      const path = '/spaces/' + space._id + '/actions'
-      load_resource('get', path, null, (res, req) => {
-        this.lastUpdateTimestamp = res.now
+      if (this.lastUpdateTimestamp !== null) {
         this.loop(space)
-      }, (error) => {
-        console.error('Async refresh ERROR')
-        console.error(error)
-      })
+      } else {
+        const path = '/spaces/' + space._id + '/actions'
+        load_resource('get', path, null, (res, req) => {
+          this.lastUpdateTimestamp = res.now
+          this.loop(space)
+        }, (error) => {
+          console.error('Async refresh ERROR')
+          console.error(error)
+          setTimeout(() => {
+            this.start_loop(space)
+          }, 5000)
+        })
+      }
     },
 
     loop: function(space) {
       console.debug('START LOOP BABY ')
-      // console.debug(this)
-      // console.debug(this.handle_live_updates)
-      // function load_resource(method, path, data, on_success, on_error, on_progress) {
       const path = '/spaces/' + space._id + '/actions/' + this.lastUpdateTimestamp
       load_resource('get', path, null, (res, req) => {
         console.debug('RESULT')
@@ -37,6 +41,9 @@ SpacedeckAsyncRefresh = {
       }, (error) => {
         console.error('Async refresh ERROR')
         console.error(error)
+        setTimeout(() => {
+          this.loop(space)
+        }, 5000)
       })
     },
 
