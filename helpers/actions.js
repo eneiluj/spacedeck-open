@@ -14,12 +14,12 @@ module.exports = {
   setupSubscription: function() {
     if (config.get("redis_mock")) {
       this.cursorSubscriber = redisMock.getConnection().subscribe(['updates'], function (err, count) {
-        console.log("[redis-mock] websockets subscribed to " + count + " topics." );
+        console.log("[redis-mock] async refresh subscribed to " + count + " topics." );
       });
     } else {
       this.cursorSubscriber = new RedisConnection(6379, process.env.REDIS_PORT_6379_TCP_ADDR || config.get("redis_host"));
       this.cursorSubscriber.subscribe(['updates'], function (err, count) {
-        console.log("[redis] websockets subscribed to " + count + " topics." );
+        console.log("[redis] async refresh subscribed to " + count + " topics." );
       });
     }
 
@@ -37,6 +37,10 @@ module.exports = {
         console.debug(msg.object.updated_at)
       }
       actions.spaceActions[spaceId].push(msg)
+      // avoid having too many actions stored: remove 50 elements when we reach a size of 100
+      if (actions.spaceActions[spaceId].length > 100) {
+        actions.spaceActions[spaceId].splice(0, 50)
+      }
 
     }.bind(this));
   },
