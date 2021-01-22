@@ -235,10 +235,13 @@ var SpacedeckBoardArtifacts = {
   artifact_thumbnail_uri: function(a) {
     if (a.payload_thumbnail_big_uri) {
       if (a.w>800) {
-        return a.payload_thumbnail_big_uri;
+        return ENV.webEndpoint + a.payload_thumbnail_big_uri;
       }
     }
-    return a.payload_thumbnail_medium_uri || a.payload_thumbnail_big_uri || a.payload_thumbnail_web_uri || "";
+    const uri = a.payload_thumbnail_medium_uri || a.payload_thumbnail_big_uri || a.payload_thumbnail_web_uri || "";
+    return uri
+      ? ENV.webEndpoint + uri
+      : ""
   },
 
   artifact_oembed_html: function(a) {
