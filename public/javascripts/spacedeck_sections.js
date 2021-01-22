@@ -2945,7 +2945,7 @@ var SpacedeckSections = {
 
       if (arts[0].payload_uri) {
         try {
-          window.open(arts[0].payload_uri);
+          window.open(ENV.webEndpoint + arts[0].payload_uri);
         } catch (e) {
           // could not open window
         }

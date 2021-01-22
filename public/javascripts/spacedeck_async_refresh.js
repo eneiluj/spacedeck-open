@@ -5,27 +5,27 @@ SpacedeckAsyncRefresh = {
     lastUpdateTimestamp: null,
   },
   methods: {
-    start_loop: function(space) {
+    start_loop: function(space_id) {
       if (this.lastUpdateTimestamp !== null) {
-        this.loop(space)
+        this.loop(space_id)
       } else {
-        const path = '/spaces/' + space._id + '/actions'
+        const path = '/spaces/' + space_id + '/actions'
         load_resource('get', path, null, (res, req) => {
           this.lastUpdateTimestamp = res.now
-          this.loop(space)
+          this.loop(space_id)
         }, (error) => {
           console.error('Async refresh ERROR')
           console.error(error)
           setTimeout(() => {
-            this.start_loop(space)
+            this.start_loop(space_id)
           }, 5000)
         })
       }
     },
 
-    loop: function(space) {
+    loop: function(space_id) {
       console.debug('START LOOP BABY ')
-      const path = '/spaces/' + space._id + '/actions/' + this.lastUpdateTimestamp
+      const path = '/spaces/' + space_id + '/actions/' + this.lastUpdateTimestamp
       load_resource('get', path, null, (res, req) => {
         console.debug('RESULT')
         console.debug(res)
@@ -37,12 +37,12 @@ SpacedeckAsyncRefresh = {
           this.lastUpdateTimestamp = new Date(res.actions[res.actions.length - 1].object.updated_at).getTime()
           console.debug('NEW last TS : ' + this.lastUpdateTimestamp)
         }
-        this.loop(space)
+        this.loop(space_id)
       }, (error) => {
         console.error('Async refresh ERROR')
         console.error(error)
         setTimeout(() => {
-          this.loop(space)
+          this.loop(space_id)
         }, 5000)
       })
     },
