@@ -30,7 +30,7 @@ module.exports = {
       if (!(spaceId in actions.spaceActions)) {
         actions.spaceActions[spaceId] = []
       }
-      if (msg.action === 'delete' || msg.action === 'create') {
+      if (msg.action === 'delete' || msg.action === 'create' || msg.action === 'update-self') {
         msg.object.updated_at = new Date()
       } else if (msg.action === 'update') {
         // console.debug(msg.object)

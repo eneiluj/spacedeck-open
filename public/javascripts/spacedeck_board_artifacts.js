@@ -19,7 +19,7 @@ var SpacedeckBoardArtifacts = {
       thumbnail_uri:        this.artifact_thumbnail_uri(a),
       major_type:           mt,
       text_blank:           this.artifact_is_text_blank(a),
-      payload_alternatives: a.payload_alternatives,
+      payload_alternatives: this.artifact_payload_alternatives(a),
       filename:             this.artifact_filename(a),
       oembed_html:          this.artifact_oembed_html(a),
       link:                 this.artifact_link(a),
@@ -242,6 +242,16 @@ var SpacedeckBoardArtifacts = {
     return uri
       ? ENV.webEndpoint + uri
       : ""
+  },
+
+  artifact_payload_alternatives: function(a) {
+      if (!a.payload_alternatives) {
+        return a.payload_alternatives
+      } else {
+        return a.payload_alternatives.map((alt) => {
+          return {...alt, payload_uri: ENV.webEndpoint + alt.payload_uri }
+        })
+      }
   },
 
   artifact_oembed_html: function(a) {
