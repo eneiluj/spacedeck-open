@@ -15,7 +15,7 @@ var SpacedeckBoardArtifacts = {
       inner_style:          this.artifact_inner_style(a),
       text_cell_style:      this.artifact_text_cell_style(a),
       vector_svg:           this.artifact_vector_svg(a),
-      payload_uri:          a.payload_uri,
+      payload_uri:          this.artifact_payload_uri(a),
       thumbnail_uri:        this.artifact_thumbnail_uri(a),
       major_type:           mt,
       text_blank:           this.artifact_is_text_blank(a),
@@ -242,6 +242,14 @@ var SpacedeckBoardArtifacts = {
     return uri
       ? ENV.webEndpoint + uri
       : ""
+  },
+
+  artifact_payload_uri: function(a) {
+    if (a.payload_uri) {
+      return ENV.webEndpoint + a.payload_uri
+    } else {
+      return a.payload_uri
+    }
   },
 
   artifact_payload_alternatives: function(a) {
