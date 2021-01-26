@@ -27,15 +27,13 @@ SpacedeckAsyncRefresh = {
       console.debug('START LOOP BABY ')
       const path = '/spaces/' + space_id + '/actions/' + this.lastUpdateTimestamp
       load_resource('get', path, null, (res, req) => {
-        console.debug('RESULT')
-        console.debug(res)
         if (res.actions && res.actions.length > 0) {
+          console.debug('Applying ' + res.actions.length + ' updates')
+          console.debug(res.actions)
           res.actions.forEach((action) => {
-            console.debug('OOOOOOOOOOOOOOOOOO ' + action.action)
             this.handle_live_updates(action)
           })
           this.lastUpdateTimestamp = new Date(res.actions[res.actions.length - 1].object.updated_at).getTime()
-          console.debug('NEW last TS : ' + this.lastUpdateTimestamp)
         }
         this.loop(space_id)
       }, (error) => {
