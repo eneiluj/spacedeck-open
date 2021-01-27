@@ -31,7 +31,11 @@ SpacedeckAsyncRefresh = {
           console.debug('Applying ' + res.actions.length + ' updates')
           console.debug(res.actions)
           res.actions.forEach((action) => {
-            this.handle_live_updates(action)
+            if (['delete', 'create', 'update', 'update-self'].includes(action.action)) {
+              this.handle_live_updates(action)
+            } else if (action.action === 'cursor') {
+              this.handle_user_cursor_update(action.object);
+            }
           })
           this.lastUpdateTimestamp = new Date(res.actions[res.actions.length - 1].object.updated_at).getTime()
         }

@@ -772,8 +772,9 @@ function setup_whiteboard_directives() {
       var cursor = this.cursor_point_to_space(evt); // takes the raw event data and finds the mouse location in virtual space
       var dx = cursor.x - $scope.mouse_ox;
       var dy = cursor.y - $scope.mouse_oy;
-      var dt = (new Date()).getTime() - this.last_mouse_move_time;
-      this.last_mouse_move_time = (new Date()).getTime();
+      const now = (new Date()).getTime();
+      var dt = now - this.last_mouse_move_time;
+      this.last_mouse_move_time = now;
 
       // send cursor
       if (dx>10 || dy>10 || dt>100) {
@@ -789,10 +790,18 @@ function setup_whiteboard_directives() {
           x: cursor.x,
           y: cursor.y,
           name: name,
-          id: $scope.user._id||name
+          id: $scope.user._id||name,
+          space_id: $scope.active_space._id,
         };
 
         $scope.websocket_send(cursor_msg);
+        // send the cursor position with async requests
+        const dSend = now - (this.last_send_cursor_time ?? 0)
+        if (dSend > 1000) {
+          this.last_send_cursor_time = now
+          const path = '/spaces/' + $scope.active_space._id + '/actions'
+          load_resource("post", path, cursor_msg);
+        }
       }
       
       // side effects ftw!

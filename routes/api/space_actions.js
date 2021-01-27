@@ -47,7 +47,15 @@ var roleMapping = {
   "admin": 3
 }
 
-// ACTIONS
+// receive one cursor position
+router.post('/', function(req, res) {
+  var data = req.body;
+  data.last_update_editor_session = req.cookies['sdsession']
+  redis.sendMessage("cursor", "Cursors", data, req.channelId);
+  res.status(200).json({});
+})
+
+// GET ACTIONS
 
 router.get('/', function(req, res, next) {
   res.status(200).json({
