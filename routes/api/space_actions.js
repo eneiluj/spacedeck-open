@@ -47,7 +47,15 @@ var roleMapping = {
   "admin": 3
 }
 
-// ACTIONS
+// receive one cursor position
+router.post('/', function(req, res) {
+  var data = req.body;
+  data.last_update_editor_session = req.cookies['sdsession']
+  redis.sendMessage("cursor", "Cursors", data, req.channelId);
+  res.status(200).json({});
+})
+
+// GET ACTIONS
 
 router.get('/', function(req, res, next) {
   res.status(200).json({
@@ -56,39 +64,35 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:lastTimestamp', function(req, res, next) {
-  console.debug('GET ACTIONNNNNNNNNNNNNNNNNNNNNN for space ' + req.space._id)
-  console.debug(req.params.lastTimestamp)
   loop(req, res, 0)
 });
 
 function loop(req, res, i) {
-    // setTimeout(() => {
-    //   res.status(200).json({
-    //     actions: actions.spaceActions[req.space._id],
-    //     allActions: actions.spaceActions,
-    //   });
-    // }, 5000)
-    // return
-  const recentActions = getRecentActions(req.space._id, req.params.lastTimestamp)
-  if (recentActions.length > 0 || i >= 10) {
+  const recentActions = getRecentActions(req.space._id, req.params.lastTimestamp, req.cookies['sdsession'])
+  if (recentActions.length > 0 || i >= 40) {
     res.status(200).json({
       actions: recentActions,
     });
   } else {
     setTimeout(() => {
       loop(req, res, i + 1)
-    }, 1000)
+    }, 500)
   }
 }
 
-function getRecentActions(spaceId, minTs) {
+function getRecentActions(spaceId, minTs, sdsession) {
   const recent = []
   if (spaceId in actions.spaceActions) {
     let i = actions.spaceActions[spaceId].length - 1
+    let action
     while (i >= 0) {
-      const ts = new Date(actions.spaceActions[spaceId][i].object.updated_at).getTime()
+      action = actions.spaceActions[spaceId][i]
+      const ts = new Date(action.object.updated_at).getTime()
       if (ts > minTs) {
-        recent.unshift(actions.spaceActions[spaceId][i])
+        // avoid giving actions from same session (except when action === update-self)
+        if (action.action === 'update-self' || action.object.last_update_editor_session !== sdsession) {
+          recent.unshift(actions.spaceActions[spaceId][i])
+        }
       } else {
         break;
       }
