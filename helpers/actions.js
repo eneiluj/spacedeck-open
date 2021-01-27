@@ -33,6 +33,13 @@ module.exports = {
       if (msg.action === 'delete' || msg.action === 'create' || msg.action === 'update-self' || msg.action === 'cursor') {
         msg.object.updated_at = new Date()
       }
+      if (msg.action === 'cursor') {
+        const session = msg.object.last_update_editor_session
+        // delete cursor positions of same session
+        actions.spaceActions[spaceId] = actions.spaceActions[spaceId].filter((a) => {
+          return a.action !== 'cursor' || a.object.last_update_editor_session !== session
+        })
+      }
       actions.spaceActions[spaceId].push(msg)
       // avoid having too many actions stored: remove 500 elements when we reach a size of 1000
       if (actions.spaceActions[spaceId].length > 1000) {

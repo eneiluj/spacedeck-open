@@ -69,14 +69,14 @@ router.get('/:lastTimestamp', function(req, res, next) {
 
 function loop(req, res, i) {
   const recentActions = getRecentActions(req.space._id, req.params.lastTimestamp, req.cookies['sdsession'])
-  if (recentActions.length > 0 || i >= 10) {
+  if (recentActions.length > 0 || i >= 40) {
     res.status(200).json({
       actions: recentActions,
     });
   } else {
     setTimeout(() => {
       loop(req, res, i + 1)
-    }, 1000)
+    }, 500)
   }
 }
 
