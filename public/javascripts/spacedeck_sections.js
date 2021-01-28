@@ -750,10 +750,15 @@ var SpacedeckSections = {
         command: cmd,
         time: time,
         name: name,
-        id: this.user._id
+        id: this.user._id,
+        space_id: this.active_space._id,
       };
       if (this.present_mode && this.active_space_role!="viewer")
         this.websocket_send(msg);
+
+      // TODO send media action
+      const path = '/spaces/' + this.active_space._id + '/actions'
+      load_resource("post", path, msg);
     },
 
     resize_minimap: function() {

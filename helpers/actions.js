@@ -13,12 +13,12 @@ const redisMock = require("./redis.js");
 module.exports = {
   setupSubscription: function() {
     if (config.get("redis_mock")) {
-      this.cursorSubscriber = redisMock.getConnection().subscribe(['cursors', 'updates'], function (err, count) {
+      this.cursorSubscriber = redisMock.getConnection().subscribe(['cursors', 'updates', 'medias'], function (err, count) {
         console.log("[redis-mock] async refresh subscribed to " + count + " topics." );
       });
     } else {
       this.cursorSubscriber = new RedisConnection(6379, process.env.REDIS_PORT_6379_TCP_ADDR || config.get("redis_host"));
-      this.cursorSubscriber.subscribe(['cursors', 'updates'], function (err, count) {
+      this.cursorSubscriber.subscribe(['cursors', 'updates', 'medias'], function (err, count) {
         console.log("[redis] async refresh subscribed to " + count + " topics." );
       });
     }
@@ -30,7 +30,7 @@ module.exports = {
       if (!(spaceId in actions.spaceActions)) {
         actions.spaceActions[spaceId] = []
       }
-      if (msg.action === 'delete' || msg.action === 'create' || msg.action === 'update-self' || msg.action === 'cursor') {
+      if (msg.action === 'delete' || msg.action === 'create' || msg.action === 'update-self' || msg.action === 'cursor' || msg.action === 'media') {
         msg.object.updated_at = new Date()
       }
       if (msg.action === 'cursor') {
