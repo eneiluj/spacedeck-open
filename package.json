@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node spacedeck.js",
-    "package": "pkg -t node10-linux -c package.json -o spacedeck.bin spacedeck.js"
+    "pkg": "pkg -t node10-linux -c package.json -o spacedeck.pkg.bin spacedeck.js",
+    "nexe": "nexe spacedeck.js -o spacedeck.nexe.bin"
   },
   "engines": {
     "node": ">=10.0.0"
