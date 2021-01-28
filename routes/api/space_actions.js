@@ -55,6 +55,8 @@ router.post('/', function(req, res) {
     redis.sendMessage("media", "medias", data, req.channelId);
   } else if (data.action === 'cursor') {
     redis.sendMessage("cursor", "cursors", data, req.channelId);
+  } else if (data.action === 'viewport') {
+    redis.sendMessage("viewport", "viewports", data, req.channelId);
   }
   res.status(200).json({});
 })
