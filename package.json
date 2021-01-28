@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node spacedeck.js"
+    "start": "node spacedeck.js",
+    "package": "pkg -t node10-linux -c package.json -o spacedeck.bin spacedeck.js"
   },
   "engines": {
     "node": ">=10.0.0"
+  },
+  "pkg": {
+    "assets": [ "views/**/*", "public/**/*", "locales/*" ]
   },
   "dependencies": {
     "archiver": "1.3.0",
