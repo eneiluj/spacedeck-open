@@ -35,6 +35,10 @@ SpacedeckAsyncRefresh = {
               this.handle_live_updates(action)
             } else if (action.action === 'cursor') {
               this.handle_user_cursor_update(action.object);
+            } else if (action.action === 'media') {
+              this.handle_presenter_media_update(action.object);
+            } else if (action.action === 'viewport') {
+              this.handle_presenter_viewport_update(action.object);
             }
           })
           this.lastUpdateTimestamp = new Date(res.actions[res.actions.length - 1].object.updated_at).getTime()

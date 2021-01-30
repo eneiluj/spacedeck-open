@@ -711,7 +711,7 @@ var SpacedeckSections = {
       this.resize_minimap();
 
       // follow presenter mode: send viewport rectangle to viewers
-      if (this.logged_in && this.present_mode) {
+      if (this.present_mode) {
         if (this.active_space_role!="viewer") {
           this.presenter_send_viewport();
         }
@@ -729,15 +729,25 @@ var SpacedeckSections = {
         h: this.window_height,
         zoom: this.viewport_zoom,
         name: name,
-        id: this.user._id
+        id: this.user._id,
+        space_id: this.active_space._id,
       };
 
       var packed = JSON.stringify(msg);
       if (packed==this._old_viewport_msg) return;
       this._old_viewport_msg = packed;
 
-      if (this.present_mode && this.active_space_role!="viewer")
+      if (this.present_mode && this.active_space_role!="viewer") {
         this.websocket_send(msg);
+
+        const now = (new Date()).getTime();
+        var dt = now - (this.last_send_viewport_time ?? 0);
+        if (dt > 1000) {
+          this.last_send_viewport_time = now;
+          const path = '/spaces/' + this.active_space._id + '/actions'
+          load_resource("post", path, msg);
+        }
+      }
     },
 
     presenter_send_media_action: function(artifact_id,type,cmd,time) {
@@ -750,10 +760,15 @@ var SpacedeckSections = {
         command: cmd,
         time: time,
         name: name,
-        id: this.user._id
+        id: this.user._id,
+        space_id: this.active_space._id,
       };
-      if (this.present_mode && this.active_space_role!="viewer")
+      if (this.present_mode && this.active_space_role!="viewer") {
         this.websocket_send(msg);
+
+        const path = '/spaces/' + this.active_space._id + '/actions'
+        load_resource("post", path, msg);
+      }
     },
 
     resize_minimap: function() {

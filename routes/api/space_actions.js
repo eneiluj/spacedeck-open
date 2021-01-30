@@ -51,7 +51,13 @@ var roleMapping = {
 router.post('/', function(req, res) {
   var data = req.body;
   data.last_update_editor_session = req.cookies['sdsession']
-  redis.sendMessage("cursor", "Cursors", data, req.channelId);
+  if (data.action === 'media') {
+    redis.sendMessage("media", "medias", data, req.channelId);
+  } else if (data.action === 'cursor') {
+    redis.sendMessage("cursor", "cursors", data, req.channelId);
+  } else if (data.action === 'viewport') {
+    redis.sendMessage("viewport", "viewports", data, req.channelId);
+  }
   res.status(200).json({});
 })
 
