@@ -797,11 +797,19 @@ function setup_whiteboard_directives() {
         $scope.websocket_send(cursor_msg);
         // send the cursor position with async requests
         const dSend = now - (this.last_send_cursor_time ?? 0)
+        // if it has been more than a second since last sent one => send immediately
         if (dSend > 1000) {
           this.last_send_cursor_time = now
           const path = '/spaces/' + $scope.active_space._id + '/actions'
           load_resource("post", path, cursor_msg);
         }
+        // when the movement stops, we're probably missing the last second
+        clearTimeout(this.send_cursor_timer)
+        this.send_cursor_timer = setTimeout(() => {
+          this.last_send_cursor_time = now
+          const path = '/spaces/' + $scope.active_space._id + '/actions'
+          load_resource("post", path, cursor_msg);
+        }, 1000)
       }
       
       // side effects ftw!
