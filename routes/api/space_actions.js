@@ -47,10 +47,9 @@ var roleMapping = {
   "admin": 3
 }
 
-// receive one cursor position
+// receive one cursor/viewport/media action
 router.post('/', function(req, res) {
   var data = req.body;
-  data.last_update_editor_session = req.cookies['sdsession']
   if (data.action === 'media') {
     redis.sendMessage("media", "medias", data, req.channelId);
   } else if (data.action === 'cursor') {
@@ -69,12 +68,12 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/:lastTimestamp', function(req, res, next) {
+router.get('/:sessionId/:lastTimestamp', function(req, res, next) {
   loop(req, res, 0)
 });
 
 function loop(req, res, i) {
-  const recentActions = getRecentActions(req.space._id, req.params.lastTimestamp, req.cookies['sdsession'])
+  const recentActions = getRecentActions(req.space._id, req.params.lastTimestamp, req.params.sessionId)
   if (recentActions.length > 0 || i >= 40) {
     res.status(200).json({
       actions: recentActions,
@@ -86,7 +85,7 @@ function loop(req, res, i) {
   }
 }
 
-function getRecentActions(spaceId, minTs, sdsession) {
+function getRecentActions(spaceId, minTs, sessionId) {
   const recent = []
   if (spaceId in actions.spaceActions) {
     let i = actions.spaceActions[spaceId].length - 1
@@ -96,7 +95,7 @@ function getRecentActions(spaceId, minTs, sdsession) {
       const ts = new Date(action.object.updated_at).getTime()
       if (ts > minTs) {
         // avoid giving actions from same session (except when action === update-self)
-        if (action.action === 'update-self' || action.object.last_update_editor_session !== sdsession) {
+        if (action.action === 'update-self' || action.object.last_update_editor_session !== sessionId) {
           recent.unshift(actions.spaceActions[spaceId][i])
         }
       } else {

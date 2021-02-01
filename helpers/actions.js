@@ -34,16 +34,16 @@ module.exports = {
         msg.object.updated_at = new Date()
       }
       if (msg.action === 'cursor') {
-        const session = msg.object.last_update_editor_session
+        const sessionId = msg.object.last_update_editor_session
         // delete cursor positions of same session
         actions.spaceActions[spaceId] = actions.spaceActions[spaceId].filter((a) => {
-          return a.action !== 'cursor' || a.object.last_update_editor_session !== session
+          return a.action !== 'cursor' || a.object.last_update_editor_session !== sessionId
         })
       } else if (msg.action === 'viewport') {
-        const session = msg.object.last_update_editor_session
-        // delete cursor positions of same session
+        const sessionId = msg.object.last_update_editor_session
+        // delete viewport changes of same session
         actions.spaceActions[spaceId] = actions.spaceActions[spaceId].filter((a) => {
-          return a.action !== 'viewport' || a.object.last_update_editor_session !== session
+          return a.action !== 'viewport' || a.object.last_update_editor_session !== sessionId
         })
       }
       actions.spaceActions[spaceId].push(msg)

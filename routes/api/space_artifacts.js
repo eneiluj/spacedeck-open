@@ -96,7 +96,6 @@ router.post('/', function(req, res, next) {
   } else {
     artifact.last_update_editor_name = req.editor_name;
   }
-  artifact.last_update_editor_session = req.cookies['sdsession']
 
   db.packArtifact(artifact);
 
@@ -170,7 +169,6 @@ router.put('/:artifact_id', function(req, res, next) {
   } else {
     newAttr.last_update_editor_name = req.editor_name;
   }
-  newAttr.last_update_editor_session = req.cookies['sdsession']
 
   db.packArtifact(newAttr);
 
@@ -186,7 +184,6 @@ router.put('/:artifact_id', function(req, res, next) {
 
 router.delete('/:artifact_id', function(req, res, next) {
   var artifact = req.artifact;
-  artifact.dataValues.last_update_editor_session = req.cookies['sdsession']
   db.Artifact.destroy({where: { "_id": artifact._id}}).then(() => {
     db.Space.update({ updated_at: new Date() }, {where: {_id: req.space._id} });
     res.distributeDelete("Artifact", artifact);
