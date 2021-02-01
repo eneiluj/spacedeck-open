@@ -801,6 +801,7 @@ function setup_whiteboard_directives() {
         if (dSend > 1000) {
           this.last_send_cursor_time = now
           const path = '/spaces/' + $scope.active_space._id + '/actions'
+          cursor_msg.last_update_editor_session = $scope.clientSessionId
           load_resource("post", path, cursor_msg);
         }
         // when the movement stops, we're probably missing the last second
@@ -808,6 +809,7 @@ function setup_whiteboard_directives() {
         this.send_cursor_timer = setTimeout(() => {
           this.last_send_cursor_time = now
           const path = '/spaces/' + $scope.active_space._id + '/actions'
+          cursor_msg.last_update_editor_session = $scope.clientSessionId
           load_resource("post", path, cursor_msg);
         }, 1000)
       }

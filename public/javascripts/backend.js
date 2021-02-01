@@ -164,6 +164,7 @@ function load_artifacts(id, on_success, on_error) {
 }
 
 function save_artifact(a, on_success, on_error) {
+  a.last_update_editor_session = window.spacedeck.clientSessionId
   if (a._id) {
     load_resource("put", "/spaces/"+a.space_id+"/artifacts/"+a._id,a,on_success,on_error);
   } else {

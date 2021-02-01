@@ -742,6 +742,7 @@ var SpacedeckSections = {
 
         clearTimeout(this.send_viewport_timer)
         this.send_viewport_timer = setTimeout(() => {
+          msg.last_update_editor_session = this.clientSessionId
           const path = '/spaces/' + this.active_space._id + '/actions'
           load_resource("post", path, msg);
         }, 1000)
@@ -764,6 +765,7 @@ var SpacedeckSections = {
       if (this.present_mode && this.active_space_role!="viewer") {
         this.websocket_send(msg);
 
+        msg.last_update_editor_session = this.clientSessionId
         const path = '/spaces/' + this.active_space._id + '/actions'
         load_resource("post", path, msg);
       }
