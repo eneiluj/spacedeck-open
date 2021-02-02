@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node spacedeck.js",
     "pkg": "pkg -t node10-linux -c package.json -o spacedeck.pkg.bin spacedeck.js",
-    "nexe": "nexe spacedeck.js -o spacedeck.nexe.bin"
+    "nexe": "nexe -t linux-x64-10.19.0 spacedeck.js -o spacedeck.nexe.bin"
   },
   "engines": {
     "node": ">=10.0.0"
