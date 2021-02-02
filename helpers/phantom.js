@@ -9,7 +9,9 @@ module.exports = {
   // type = "pdf" or "png"
   takeScreenshot: function(space,type,on_success,on_error) {
     var spaceId = space._id;
-    var space_url = config.get("endpoint")+"/api/spaces/"+spaceId+"/html";
+    // TODO make this more generic
+    // var space_url = config.get("endpoint")+"/api/spaces/"+spaceId+"/html";
+    var space_url = "http://localhost:"+config.get("port")+"/api/spaces/"+spaceId+"/html";
 
     var export_path = os.tmpdir()+"/"+spaceId+"."+type;
 
